@@ -12,7 +12,7 @@ public static class CoreExtension
         serviceProvider.AddDbContext<BlogContext>(opt =>
         {
             opt.UseSqlServer(connectionString);
-        });
+        }).AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
         return serviceProvider;
     }

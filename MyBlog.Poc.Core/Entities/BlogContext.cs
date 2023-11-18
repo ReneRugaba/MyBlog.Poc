@@ -15,7 +15,6 @@ public class BlogContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         ArticleBuilder(modelBuilder);
-        AuthorBuilder(modelBuilder);
         CommentaryBuilder(modelBuilder);
     }
 
@@ -23,19 +22,9 @@ public class BlogContext : DbContext
     {
         modelBuilder.Entity<Commentary>(entity =>
         {
-            entity.HasOne(c => c.Article).WithMany();
-            entity.HasOne<Author>(c => c.Author).WithMany()
+            entity.HasOne(c => c.Author).WithMany()
                 .HasForeignKey(c => c.AuthorId)
                 .OnDelete(DeleteBehavior.NoAction);
-        });
-    }
-
-    private static void AuthorBuilder(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Author>(entity =>
-        {
-            entity.HasMany(auth => auth.Articles).WithOne();
-            entity.HasMany(auth => auth.Commentaries).WithOne();
         });
     }
 

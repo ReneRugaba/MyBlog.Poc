@@ -17,8 +17,8 @@ namespace MyBlog.Poc.Core.Migrations
                 {
                     AuthorId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<int>(type: "int", nullable: false),
-                    LastName = table.Column<int>(type: "int", nullable: false)
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,11 +31,12 @@ namespace MyBlog.Poc.Core.Migrations
                 {
                     ArticleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
-                    AuthorId1 = table.Column<int>(type: "int", nullable: false)
+                    AuthorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,12 +46,6 @@ namespace MyBlog.Poc.Core.Migrations
                         column: x => x.AuthorId,
                         principalTable: "Authors",
                         principalColumn: "AuthorId");
-                    table.ForeignKey(
-                        name: "FK_Articles_Authors_AuthorId1",
-                        column: x => x.AuthorId1,
-                        principalTable: "Authors",
-                        principalColumn: "AuthorId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,7 +59,6 @@ namespace MyBlog.Poc.Core.Migrations
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AuthorId = table.Column<int>(type: "int", nullable: false),
                     ArticleId = table.Column<int>(type: "int", nullable: false),
-                    ArticleId1 = table.Column<int>(type: "int", nullable: true),
                     AuthorId1 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -76,11 +70,6 @@ namespace MyBlog.Poc.Core.Migrations
                         principalTable: "Articles",
                         principalColumn: "ArticleId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Commentaries_Articles_ArticleId1",
-                        column: x => x.ArticleId1,
-                        principalTable: "Articles",
-                        principalColumn: "ArticleId");
                     table.ForeignKey(
                         name: "FK_Commentaries_Authors_AuthorId",
                         column: x => x.AuthorId,
@@ -99,19 +88,9 @@ namespace MyBlog.Poc.Core.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Articles_AuthorId1",
-                table: "Articles",
-                column: "AuthorId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Commentaries_ArticleId",
                 table: "Commentaries",
                 column: "ArticleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Commentaries_ArticleId1",
-                table: "Commentaries",
-                column: "ArticleId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Commentaries_AuthorId",

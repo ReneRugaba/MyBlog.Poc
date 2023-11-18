@@ -33,14 +33,20 @@ namespace MyBlog.Poc.Core.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AuthorId1")
-                        .HasColumnType("int");
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Title")
-                        .HasColumnType("int");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -48,8 +54,6 @@ namespace MyBlog.Poc.Core.Migrations
                     b.HasKey("ArticleId");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("AuthorId1");
 
                     b.ToTable("Articles");
                 });
@@ -62,11 +66,13 @@ namespace MyBlog.Poc.Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthorId"));
 
-                    b.Property<int>("FirstName")
-                        .HasColumnType("int");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LastName")
-                        .HasColumnType("int");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AuthorId");
 
@@ -82,9 +88,6 @@ namespace MyBlog.Poc.Core.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentaryId"));
 
                     b.Property<int>("ArticleId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ArticleId1")
                         .HasColumnType("int");
 
                     b.Property<int>("AuthorId")
@@ -107,8 +110,6 @@ namespace MyBlog.Poc.Core.Migrations
 
                     b.HasIndex("ArticleId");
 
-                    b.HasIndex("ArticleId1");
-
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("AuthorId1");
@@ -118,16 +119,10 @@ namespace MyBlog.Poc.Core.Migrations
 
             modelBuilder.Entity("MyBlog.Poc.Core.Entities.Article", b =>
                 {
-                    b.HasOne("MyBlog.Poc.Core.Entities.Author", null)
+                    b.HasOne("MyBlog.Poc.Core.Entities.Author", "Author")
                         .WithMany("Articles")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("MyBlog.Poc.Core.Entities.Author", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId1")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Author");
@@ -136,14 +131,10 @@ namespace MyBlog.Poc.Core.Migrations
             modelBuilder.Entity("MyBlog.Poc.Core.Entities.Commentary", b =>
                 {
                     b.HasOne("MyBlog.Poc.Core.Entities.Article", "Article")
-                        .WithMany()
+                        .WithMany("Commentaries")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("MyBlog.Poc.Core.Entities.Article", null)
-                        .WithMany("Commentaries")
-                        .HasForeignKey("ArticleId1");
 
                     b.HasOne("MyBlog.Poc.Core.Entities.Author", "Author")
                         .WithMany()
