@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace MyBlog.Poc.Core;
 
-public class BaseQuerySpecification<T> : ISpecification<T> where T : BaseEntity
+public abstract class BaseQuerySpecification<T> : ISpecification<T> where T : BaseEntity
 {
 
     public BaseQuerySpecification(Expression<Func<T, bool>>? criteria = null) => Criteria = criteria;
@@ -31,9 +31,6 @@ public class BaseQuerySpecification<T> : ISpecification<T> where T : BaseEntity
     public bool IsPagingEnabled { get; set; }
 
 
-    private int _minPageIndex = 0;
-    private int _minPageSize = 0;
-
     protected virtual void AddInclude(Expression<Func<T, object>>? includeExpression)
     {
         if (includeExpression is not null)
@@ -42,16 +39,6 @@ public class BaseQuerySpecification<T> : ISpecification<T> where T : BaseEntity
 
     protected virtual void AddInclude(string includeString)
     {
-        IncludeStrings?.Add(includeString);
-    }
-
-    protected virtual void AddInclude(int? skip, int? take)
-    {
-        var pageIndex = skip ?? _minPageIndex;
-        var pageSize = take ?? _minPageSize;
-
-        Skip = pageIndex * pageSize;
-        Take = pageSize;
-        IsPagingEnabled = true;
+        IncludeStrings.Add(includeString);
     }
 }

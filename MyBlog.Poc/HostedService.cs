@@ -22,59 +22,64 @@ public class HostedService : IHostedService
 
         await CreateBdIfNotExistAdSeed(service);
 
-        var articleSpec = new ArticleQuerySpecification()
-        {
-            IsPagingEnabled = true,
-            Includes = new()
-            {
-                a => a.Author,
-                a => a.Commentaries,
-            },
-            Take = 2,
-            Skip = 1,
-            IsSplitQuery = true,
-        };
-        var articles = await _repository.AllAsync(articleSpec);
+        //var page = 2;
+
+        var articleSpec = new ArticleQuerySpecification(3);
+        var article = await _repository.FindByAsync(articleSpec);
+
+        var commentarySpec = new CommentaryQuerySpecification(article.ArticleId);
+        await _repository.AllAsync(commentarySpec);
 
 
-        Console.WriteLine("======================================");
-        Console.WriteLine("======================================");
-        Console.WriteLine("======================================");
-        foreach (var article in articles)
-        {
-            Console.WriteLine($"\n");
-            Console.WriteLine($"============[ ARTICLE {article.ArticleId} ]============");
-            Console.WriteLine($"Article title: {article.Title}");
-            Console.WriteLine($"Article title: {article.Content}");
-            Console.WriteLine($"\n");
-            if (article.Author != null)
-            {
-                Console.WriteLine($"============[ Author {article.AuthorId} ]============");
-                Console.WriteLine($"**** {article.Author.LastName} {article.Author.LastName}");
-                Console.WriteLine($"**** Created at {article.CreatedAt:d}");
-            }
-            Console.WriteLine($"\n");
-            if (article.Commentaries.Any())
-            {
-                CommentaryQuerySpecification commentaryQuerySpecification = new(article.ArticleId);
-                await _repository.AllAsync(commentaryQuerySpecification);
-                Console.WriteLine($"\n");
-                Console.WriteLine($"============[ Article n° {article.ArticleId} commentaries ]============");
-                foreach (var commentary in article.Commentaries)
-                {
-                    Console.WriteLine($"**** Created by {commentary.Author.FirstName} {commentary.Author.LastName} at {commentary.CreatedAt:d}");
-                    Console.WriteLine($"**** Content: {commentary.Content}");
-                }
-            }
-            Console.WriteLine($"\n");
-            Console.WriteLine("============[ ARTICLE END]===========");
-            Console.WriteLine($"\n");
-
-        }
-        Console.WriteLine("======================================");
-        Console.WriteLine("======================================");
-        Console.WriteLine("======================================");
         Console.WriteLine($"\n");
+        Console.WriteLine($"============[ ARTICLE {article.ArticleId} ]============");
+        Console.WriteLine($"Article title: {article.Title}");
+        Console.WriteLine($"Article title: {article.Content}");
+        Console.WriteLine($"\n");
+        if (article.Author != null)
+        {
+            Console.WriteLine($"============[ Author {article.AuthorId} ]============");
+            Console.WriteLine($"**** {article.Author.LastName} {article.Author.LastName}");
+            Console.WriteLine($"**** Created at {article.CreatedAt:d}");
+        }
+        foreach (var com in article.Commentaries)
+        {
+            Console.WriteLine($"\n============[ Commentary of Acrticle {article.ArticleId} ]============");
+            Console.WriteLine($"**** Created by {com.Author.FirstName} {com.Author.LastName} at {com.CreatedAt:d}");
+            Console.WriteLine($"**** Content: {com.Content}");
+        }
+
+        Console.WriteLine($"\n");
+        Console.WriteLine("============[ ARTICLE END]===========");
+        Console.WriteLine($"\n");
+
+
+        //Console.WriteLine("======================================");
+        //Console.WriteLine("======================================");
+        //Console.WriteLine("======================================");
+        //foreach (var article in articles)
+        //{
+        //    Console.WriteLine($"\n");
+        //    Console.WriteLine($"============[ ARTICLE {article.ArticleId} ]============");
+        //    Console.WriteLine($"Article title: {article.Title}");
+        //    Console.WriteLine($"Article title: {article.Content}");
+        //    Console.WriteLine($"\n");
+        //    if (article.Author != null)
+        //    {
+        //        Console.WriteLine($"============[ Author {article.AuthorId} ]============");
+        //        Console.WriteLine($"**** {article.Author.LastName} {article.Author.LastName}");
+        //        Console.WriteLine($"**** Created at {article.CreatedAt:d}");
+        //    }
+
+        //    Console.WriteLine($"\n");
+        //    Console.WriteLine("============[ ARTICLE END]===========");
+        //    Console.WriteLine($"\n");
+
+        //}
+        //Console.WriteLine("======================================");
+        //Console.WriteLine("======================================");
+        //Console.WriteLine("======================================");
+        //Console.WriteLine($"\n");
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
