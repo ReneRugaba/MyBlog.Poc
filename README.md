@@ -3,11 +3,11 @@
 [![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg)](#)
 [![Twitter: JeanRugaba](https://img.shields.io/twitter/follow/JeanRugaba.svg?style=social)](https://twitter.com/JeanRugaba)
 
-> This solution aims to show the benefit of using the specification and repository design patterns together.
+> This solution aims to show the benefit of using the **Specification** and **Repository** design patterns.
 
-### Configuration
+### Project setup
 
-> Open the solution in your favorite editor and find the DI folder in the **MyBlog.Poc.Core** project. Open the solution in your favorite editor and find the DI folder in the **MyBlog.Poc.Core** project. In the **CoreExtension** class you will find a private property. Assign your connection string to it.
+> Open the solution in your favorite IDE and find the DI folder in the **MyBlog.Poc.Core** project. Open the solution in your favorite editor and find the DI folder in the **MyBlog.Poc.Core** project. In the **CoreExtension** class you will find a private property. Assign your connection string to it.
 
 ![DI and connectionString](./img/coreDi.png)
 
