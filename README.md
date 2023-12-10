@@ -7,7 +7,7 @@
 
 ### Project setup
 
-> Open the solution in your favorite IDE and find the DI folder in the **MyBlog.Poc.Core** project. Open the solution and find the DI folder in the **MyBlog.Poc.Core** project. In the **CoreExtension** class you will find a private property. Assign your connection string to it.
+> Open the solution in your favorite IDE and find the DI folder in the **MyBlog.Poc.Core** project.In the **CoreExtension** class you will find a private property. Assign your connection string to it.
 
 ![DI and connectionString](./img/coreDi.png)
 
